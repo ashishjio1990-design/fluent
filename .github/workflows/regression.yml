@@ -34,7 +34,12 @@ jobs:
           npm install -g appium
           appium driver install uiautomator2
 
+      # continue-on-error lets the job proceed to the artifact/report steps
+      # regardless of test outcome. The explicit "Fail job" step below restores
+      # the correct exit signal at the end.
       - name: Run regression tests on emulator
+        id: run-tests
+        continue-on-error: true
         uses: reactivecircus/android-emulator-runner@v2
         timeout-minutes: 45
         with:
@@ -60,3 +65,19 @@ jobs:
         with:
           name: appium-logs
           path: target/appium.log
+          if-no-files-found: warn
+
+      - name: Upload Surefire reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
+          if-no-files-found: warn
+
+      # Restore the correct job outcome — fail the job when tests failed.
+      - name: Fail job if tests failed
+        if: steps.run-tests.outcome == 'failure'
+        run: |
+          echo "::error::Regression tests failed — check the surefire-reports artifact for details"
+          exit 1
