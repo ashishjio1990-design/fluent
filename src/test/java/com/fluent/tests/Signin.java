@@ -53,5 +53,6 @@ class Signin extends BaseTest {
                 Assertions.assertTrue(pages.signIn.isHomeViewDisplayed(),
                                 "Home view should be visible after successful login");
                 pages.home.logout();
+                System.out.println("Sign-in test completed.");
         }
 }
