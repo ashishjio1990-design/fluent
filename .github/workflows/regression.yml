@@ -49,16 +49,29 @@ jobs:
             sleep 5
             mvn test -Dgroups=regression -P ci -Dno.reset=false -Dfull.reset=true
 
+      - name: Write Allure environment properties
+        if: always()
+        run: |
+          mkdir -p target/allure-results
+          {
+            echo "Branch=${{ github.ref_name }}"
+            echo "Run=#${{ github.run_number }}"
+            echo "Triggered By=${{ github.actor }}"
+            echo "Platform=Android API 34"
+          } > target/allure-results/environment.properties
+
       - name: Generate Allure report
         if: always()
-        run: mvn allure:report -DskipTests
+        run: |
+          npm install -g allure-commandline
+          allure generate target/allure-results -o allure-report --clean
 
       - name: Upload Allure HTML report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: target/site/allure-maven-plugin/
+          path: allure-report/
 
       - name: Upload Allure results
         if: always()
