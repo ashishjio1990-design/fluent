@@ -1,0 +1,26 @@
+# Maven
+target/
+
+# Allure results
+allure-results/
+allure-report/
+
+# Logs and screenshots (generated at runtime)
+logs/
+screenshots/
+
+# IDE
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+*.class
+
+# OS
+.DS_Store
+Thumbs.db
+
+# APK — tracked by Git LFS or stored externally; not committed directly
+# apps/android/*.apk
+# apps/ios/*.ipa

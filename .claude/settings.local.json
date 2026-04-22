@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(aapt dump *)",
+      "Bash(adb shell *)"
+    ]
+  }
+}
