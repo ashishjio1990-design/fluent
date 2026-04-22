@@ -1,6 +1,7 @@
 package com.fluent.driver;
 
 import com.fluent.utils.ConfigReader;
+import com.fluent.utils.DeviceDetector;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.slf4j.Logger;
@@ -65,10 +66,21 @@ public final class AndroidDriverFactory {
     private static UiAutomator2Options buildOptions(ConfigReader config) {
         UiAutomator2Options options = new UiAutomator2Options();
 
-        // Device identification
-        options.setDeviceName(config.get("device.name"));
-        options.setPlatformVersion(config.get("platform.version"));
-        options.setUdid(config.get("udid"));
+        // Device identification — auto-detect via adb when not set in config
+        String udid = config.getOrDefault("udid", "");
+        String deviceName = config.getOrDefault("device.name", "");
+        String platformVersion = config.getOrDefault("platform.version", "");
+
+        if (udid.isBlank()) {
+            DeviceDetector.DeviceInfo detected = DeviceDetector.detect();
+            udid = detected.udid();
+            if (deviceName.isBlank()) deviceName = detected.model();
+            if (platformVersion.isBlank()) platformVersion = detected.platformVersion();
+        }
+
+        options.setUdid(udid);
+        options.setDeviceName(deviceName.isBlank() ? "Android Device" : deviceName);
+        if (!platformVersion.isBlank()) options.setPlatformVersion(platformVersion);
 
         // App under test — path relative to project root
         String appPath = System.getProperty("user.dir") + "/" + config.get("app.path");
@@ -94,8 +106,8 @@ public final class AndroidDriverFactory {
             Long.parseLong(config.getOrDefault("uiautomator2.server.install.timeout", "60000"))
         ));
 
-        log.debug("UiAutomator2Options: device={}, package={}, activity={}",
-            config.get("device.name"), config.get("app.package"), config.get("app.activity"));
+        log.debug("UiAutomator2Options: udid={}, device={}, package={}, activity={}",
+            udid, deviceName, config.get("app.package"), config.get("app.activity"));
 
         return options;
     }

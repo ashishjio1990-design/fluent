@@ -2,7 +2,7 @@ package com.fluent.pom.welcome;
 
 import com.fluent.base.BasePage;
 import com.fluent.pom.login.LoginPage;
-import com.fluent.pom.onboarding.OnboardingVideoPage;
+import com.fluent.pom.onboarding.OnboardingPage;
 import com.fluent.utils.WaitUtils;
 import io.appium.java_client.AppiumBy;
 import io.qameta.allure.Step;
@@ -19,10 +19,10 @@ public class WelcomePage extends BasePage {
     // ─────────────────────────── Actions ───────────────────────────────────
 
     @Step("Tap Create account")
-    public OnboardingVideoPage tapCreateAccount() {
+    public OnboardingPage tapCreateAccount() {
         log.info("Tapping Create account");
         tap(CREATE_ACCOUNT_BTN);
-        return new OnboardingVideoPage();
+        return new OnboardingPage();
     }
 
     @Step("Tap Log in")

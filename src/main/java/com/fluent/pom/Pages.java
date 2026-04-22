@@ -4,7 +4,7 @@ import com.fluent.pom.home.HomePage;
 import com.fluent.pom.login.LoginPage;
 import com.fluent.pom.mpin.MpinPage;
 import com.fluent.pom.signin.SignInPage;
-import com.fluent.pom.onboarding.OnboardingVideoPage;
+import com.fluent.pom.onboarding.OnboardingPage;
 import com.fluent.pom.profile.ProfileSetupPage;
 import com.fluent.pom.registration.RegistrationPage;
 import com.fluent.pom.welcome.WelcomePage;
@@ -16,7 +16,7 @@ import com.fluent.pom.welcome.WelcomePage;
 public class Pages {
 
     public final WelcomePage welcome;
-    public final OnboardingVideoPage onboardingVideo;
+    public final OnboardingPage onboarding;
     public final RegistrationPage registration;
     public final MpinPage mpin;
     public final ProfileSetupPage profileSetup;
@@ -31,7 +31,7 @@ public class Pages {
     // onboarding constructror
     public Pages() {
         welcome       = new WelcomePage();
-        onboardingVideo = new OnboardingVideoPage();
+        onboarding = new OnboardingPage();
         registration  = new RegistrationPage();
         mpin          = new MpinPage();
         profileSetup  = new ProfileSetupPage();

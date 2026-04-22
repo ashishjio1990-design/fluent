@@ -31,12 +31,12 @@ class RegistrationTest extends BaseTest {
 
         // Step 2 — Tap Create account → onboarding video
         pages.welcome.tapCreateAccount();
-        pages.onboardingVideo.allowPermissionDialogIfPresent();
-        Assertions.assertTrue(pages.onboardingVideo.isDisplayed(),
+        pages.onboarding.allowPermissionDialogIfPresent();
+        Assertions.assertTrue(pages.onboarding.isDisplayed(),
                 "Onboarding video screen should appear after tapping Create account");
 
         // Step 3 — Tap Skip → registration form
-        pages.onboardingVideo.tapSkip();
+        pages.onboarding.tapSkip();
         Assertions.assertTrue(pages.registration.isDisplayed(),
                 "Registration screen should appear after tapping Skip");
         Assertions.assertEquals("Let's get started", pages.registration.getHeaderText(),

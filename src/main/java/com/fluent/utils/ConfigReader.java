@@ -68,7 +68,8 @@ public final class ConfigReader {
         if (sysProp != null && !sysProp.isBlank()) {
             return sysProp;
         }
-        return props.getProperty(key, defaultValue).trim();
+        String value = props.getProperty(key, defaultValue).trim();
+        return value.isBlank() ? defaultValue : value;
     }
 
     // ─────────────────────────── Private ───────────────────────────────────
