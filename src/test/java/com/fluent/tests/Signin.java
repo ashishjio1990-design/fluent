@@ -26,7 +26,7 @@ class Signin extends BaseTest {
                 resetApp();
                 pages.welcome.allowPermissionDialogIfPresent();
 
-                // Step 1 — Verify Welcome screen and tap Log In
+                // Step 1 — Verify Welcome screen and tap Log In.
                 pages.onboarding.tapSignIn();
 
                 // Step 2 — Enter mobile number and tap Submit
