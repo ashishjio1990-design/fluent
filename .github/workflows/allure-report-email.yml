@@ -1,0 +1,79 @@
+name: Test & Email Allure Report
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-and-report:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 26
+      uses: actions/setup-java@v4
+      with:
+        java-version: '26'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Run Tests with Maven
+      run: mvn clean test -DforkCount=0 -pl .
+      continue-on-error: true
+
+    - name: Generate Allure Report
+      if: always()
+      run: |
+        npm install -g allure-commandline --save-dev
+        allure generate target/allure-results -o allure-report --clean
+
+    - name: Upload Allure HTML Report as Artifact
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: allure-report
+        path: ./allure-report/
+        retention-days: 30
+
+    - name: Generate PDF Report
+      if: always()
+      continue-on-error: true
+      env:
+        BUILD_VERSION: ${{ github.ref_name }}
+      run: |
+        npm install puppeteer-core --prefix /tmp/pdf-deps --no-save --loglevel error
+        NODE_PATH=/tmp/pdf-deps/node_modules node .github/scripts/generate-pdf-report.js \
+          target/allure-results test-report-${{ github.run_number }}.pdf
+
+    - name: Check email secrets
+      id: email-check
+      if: always()
+      run: |
+        if [ -n "${{ secrets.GMAIL_USERNAME }}" ] && [ -n "${{ secrets.GMAIL_PASSWORD }}" ] && [ -n "${{ secrets.EMAIL_RECIPIENT }}" ]; then
+          echo "ready=true" >> $GITHUB_OUTPUT
+        else
+          echo "ready=false" >> $GITHUB_OUTPUT
+          echo "::warning::Email skipped — add GMAIL_USERNAME, GMAIL_PASSWORD, EMAIL_RECIPIENT in Settings → Secrets → Actions"
+        fi
+
+    - name: Send Allure Report via Email
+      if: always() && steps.email-check.outputs.ready == 'true'
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        secure: true
+        username: ${{ secrets.GMAIL_USERNAME }}
+        password: ${{ secrets.GMAIL_PASSWORD }}
+        subject: "Test Report - ${{ github.repository }} - Run #${{ github.run_number }}"
+        to: ${{ secrets.EMAIL_RECIPIENT }}
+        from: ${{ secrets.GMAIL_USERNAME }}
+        attachments: test-report-${{ github.run_number }}.pdf
+        html_body: file://test-report-${{ github.run_number }}.html
+        body: |
+          Test execution completed.
+          Repository : ${{ github.repository }}
+          Branch     : ${{ github.ref_name }}
+          Triggered By: ${{ github.actor }}
+          Run        : #${{ github.run_number }}
+          Full Allure Report: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
