@@ -193,7 +193,10 @@
                     <includes>
                         <include>**/*Test.java</include>
                         <include>**/*Tests.java</include>
+                        <include>**/Signin.java</include>
                     </includes>
+                    <!-- Filter by tag: mvn test -Dgroups=regression -->
+                    <groups>${groups}</groups>
                 </configuration>
                 <dependencies>
                     <dependency>

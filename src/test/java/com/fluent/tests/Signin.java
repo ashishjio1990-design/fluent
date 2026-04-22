@@ -10,8 +10,10 @@ import io.qameta.allure.Story;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("regression")
 @Feature("Sign In")
 class Signin extends BaseTest {
 
