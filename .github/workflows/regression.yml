@@ -10,6 +10,9 @@ jobs:
   regression:
     name: Run @regression tests
     runs-on: ubuntu-latest
+    env:
+      # Reduces the time the runner waits for the emulator to shut down gracefully before forcing a kill
+      ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 5
 
     steps:
       - name: Checkout code
@@ -41,13 +44,13 @@ jobs:
         id: run-tests
         continue-on-error: true
         uses: reactivecircus/android-emulator-runner@v2
-        timeout-minutes: 45
+        timeout-minutes: 7
         with:
           api-level: 34
           arch: x86_64
           profile: pixel_6
           force-avd-creation: false
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          emulator-options: -no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
           script: |
             mkdir -p target
@@ -58,7 +61,7 @@ jobs:
             TEST_EXIT=$?
 
             # ── Cleanup: kill Appium ──────────────────────────────────────────
-            kill $APPIUM_PID 2>/dev/null || true
+            kill -9 $APPIUM_PID 2>/dev/null || true
 
             exit $TEST_EXIT
 

@@ -24,13 +24,7 @@ class Signin extends BaseTest {
                 pages.signIn.enterPhone(SignInTestData.VALID_MOBILE);
                 pages.signIn.tapSubmit();
 
-                // Step 3 — Wait for OTP/PIN screen to load
-                try {
-                        Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                }
-
+                // Step 3 — OTP/PIN screen load is handled by explicit waits in the enterPin method
                 // Step 4 — Enter PIN
                 pages.signIn.enterPin(SignInTestData.VALID_PIN);
 
