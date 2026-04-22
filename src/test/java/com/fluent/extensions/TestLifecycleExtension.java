@@ -12,12 +12,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Optional;
 
 /**
- * JUnit 5 Extension that handles:
- *  - Logging test start / end
- *  - Screenshot capture on test failure (attached to Allure)
- *  - Driver teardown after each test (safety net — BaseTest also calls quitDriver)
- *
- * Register via @ExtendWith(TestLifecycleExtension.class) on BaseTest.
+ * JUnit 5 Extension that handles logging, screenshot capture on failure,
+ * and driver teardown after each test.
  */
 public class TestLifecycleExtension
         implements BeforeEachCallback, AfterEachCallback, TestWatcher {
@@ -54,7 +50,7 @@ public class TestLifecycleExtension
     @Override
     public void testFailed(ExtensionContext context, Throwable cause) {
         log.error("FAIL ✘ {} — {}", testDisplayName(context), cause.getMessage());
-        ScreenshotUtils.captureAndAttach(sanitise(testDisplayName(context)));
+        ScreenshotUtils.capture(sanitise(testDisplayName(context)));
     }
 
     @Override
