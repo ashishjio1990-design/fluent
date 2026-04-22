@@ -58,7 +58,7 @@ jobs:
             TEST_EXIT=$?
 
             # ── Cleanup: kill Appium ──────────────────────────────────────────
-            kill $APPIUM_PID 2>/dev/null || true
+            kill -9 $APPIUM_PID 2>/dev/null || true
 
             exit $TEST_EXIT
 
