@@ -21,6 +21,6 @@ screenshots/
 .DS_Store
 Thumbs.db
 
-# APK — tracked by Git LFS or stored externally; not committed directly
-# apps/android/*.apk
-# apps/ios/*.ipa
+# APK/IPA — too large for GitHub, store externally
+apps/android/*.apk
+apps/ios/*.ipa
