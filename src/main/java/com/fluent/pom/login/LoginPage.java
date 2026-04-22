@@ -2,7 +2,6 @@ package com.fluent.pom.login;
 
 import com.fluent.base.BasePage;
 import io.appium.java_client.AppiumBy;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
@@ -16,27 +15,23 @@ public class LoginPage extends BasePage {
 
     // ─────────────────────────── Actions ───────────────────────────────────
 
-    @Step("Enter email: {email}")
     public LoginPage enterEmail(String email) {
         log.info("Entering email: {}", email);
         enterText(EMAIL_ET, email);
         return this;
     }
 
-    @Step("Enter password")
     public LoginPage enterPassword(String password) {
         log.info("Entering password");
         enterText(PASSWORD_ET, password);
         return this;
     }
 
-    @Step("Tap Log in")
     public void tapLogin() {
         log.info("Tapping Log in button");
         tap(LOGIN_BTN);
     }
 
-    @Step("Tap back")
     public void tapBack() {
         tap(BACK_BTN);
     }

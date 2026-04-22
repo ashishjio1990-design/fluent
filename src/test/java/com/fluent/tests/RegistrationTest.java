@@ -2,26 +2,15 @@ package com.fluent.tests;
 
 import com.fluent.base.BaseTest;
 import com.fluent.testdata.RegistrationTestData;
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Story;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 
-@Feature("User Registration")
 class RegistrationTest extends BaseTest {
 
     @Test
     @DisplayName("TC-001: Successful registration with mandatory field validation")
-    @Description("Verifies all fields are mandatory and a user can complete full registration flow.")
-    @Story("New user registration")
-    @Severity(SeverityLevel.CRITICAL)
     void tc001_successfulRegistrationWithValidDetails() {
         // Step 1 — Verify Welcome screen is shown
         resetApp();

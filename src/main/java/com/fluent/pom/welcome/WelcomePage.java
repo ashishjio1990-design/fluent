@@ -5,7 +5,6 @@ import com.fluent.pom.login.LoginPage;
 import com.fluent.pom.onboarding.OnboardingPage;
 import com.fluent.utils.WaitUtils;
 import io.appium.java_client.AppiumBy;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class WelcomePage extends BasePage {
@@ -18,14 +17,12 @@ public class WelcomePage extends BasePage {
 
     // ─────────────────────────── Actions ───────────────────────────────────
 
-    @Step("Tap Create account")
     public OnboardingPage tapCreateAccount() {
         log.info("Tapping Create account");
         tap(CREATE_ACCOUNT_BTN);
         return new OnboardingPage();
     }
 
-    @Step("Tap Log in")
     public LoginPage tapLogIn() {
         log.info("Tapping Log in");
         tap(LOG_IN_BTN);

@@ -4,7 +4,6 @@ import com.fluent.base.BasePage;
 import com.fluent.pom.profile.ProfileSetupPage;
 import com.fluent.utils.WaitUtils;
 import io.appium.java_client.AppiumBy;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class MpinPage extends BasePage {
@@ -16,7 +15,6 @@ public class MpinPage extends BasePage {
 
     // ─────────────────────────── Actions ───────────────────────────────────
 
-    @Step("Enter MPIN: {pin}")
     public MpinPage enterPin(String pin) {
         log.info("Tapping pinCode field and entering MPIN");
         try { Thread.sleep(5000); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
@@ -28,7 +26,6 @@ public class MpinPage extends BasePage {
         return this;
     }
 
-    @Step("Confirm MPIN: {pin}")
     public ProfileSetupPage confirmPin(String pin) {
         log.info("Tapping pinConfirmCode field and confirming MPIN");
         tap(PIN_CONFIRM_CODE);

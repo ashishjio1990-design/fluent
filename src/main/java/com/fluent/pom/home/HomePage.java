@@ -2,7 +2,6 @@ package com.fluent.pom.home;
 
 import com.fluent.base.BasePage;
 import io.appium.java_client.AppiumBy;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class HomePage extends BasePage {
@@ -14,21 +13,18 @@ public class HomePage extends BasePage {
 
     // ─────────────────────────── Actions ───────────────────────────────────
 
-    @Step("Tap home container")
     public HomePage tapHomeContainer() {
         log.info("Tapping home container");
         tap(HOME_CONTAINER);
         return this;
     }
 
-    @Step("Tap settings")
     public HomePage tapSettings() {
         log.info("Tapping settings");
         tap(SETTINGS);
         return this;
     }
 
-    @Step("Logout")
     public void logout() {
         log.info("Logging out");
         tapHomeContainer();

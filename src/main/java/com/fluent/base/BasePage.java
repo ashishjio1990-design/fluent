@@ -8,7 +8,6 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -33,13 +32,11 @@ public abstract class BasePage {
 
     // ─────────────────────────── Core interactions ─────────────────────────
 
-    @Step("Tap element: {locator}")
     protected void tap(By locator) {
         log.debug("Tap: {}", locator);
         WaitUtils.waitForClickability(locator).click();
     }
 
-    @Step("Enter text '{text}' into: {locator}")
     protected void enterText(By locator, String text) {
         log.debug("Enter text '{}' into: {}", text, locator);
         WebElement element = WaitUtils.waitForVisibility(locator);

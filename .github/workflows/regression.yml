@@ -45,7 +45,7 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
           script: |
-            mkdir -p target/allure-results
+            mkdir -p target
             appium --log target/appium.log &
             APPIUM_PID=$!
             sleep 5
@@ -53,37 +53,6 @@ jobs:
             TEST_EXIT=$?
             kill $APPIUM_PID 2>/dev/null || true
             exit $TEST_EXIT
-
-      - name: Write Allure environment properties
-        if: always()
-        run: |
-          mkdir -p target/allure-results
-          {
-            echo "Branch=${{ github.ref_name }}"
-            echo "Run=#${{ github.run_number }}"
-            echo "Triggered By=${{ github.actor }}"
-            echo "Platform=Android API 34"
-          } > target/allure-results/environment.properties
-
-      - name: Generate Allure report
-        if: always()
-        run: |
-          npm install -g allure-commandline@2.27.0
-          allure generate target/allure-results -o allure-report --clean
-
-      - name: Upload Allure HTML report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: allure-report/
-
-      - name: Upload Allure results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results
-          path: target/allure-results/
 
       - name: Upload Appium logs
         if: always()

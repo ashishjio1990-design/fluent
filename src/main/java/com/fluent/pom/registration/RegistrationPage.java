@@ -2,7 +2,6 @@ package com.fluent.pom.registration;
 
 import com.fluent.base.BasePage;
 import io.appium.java_client.AppiumBy;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class RegistrationPage extends BasePage {
@@ -19,35 +18,30 @@ public class RegistrationPage extends BasePage {
 
     // ─────────────────────────── Actions ───────────────────────────────────
 
-    @Step("Enter first name: {firstName}")
     public RegistrationPage enterFirstName(String firstName) {
         log.info("Entering first name: {}", firstName);
         enterText(FIRST_NAME_ET, firstName);
         return this;
     }
 
-    @Step("Enter last name: {lastName}")
     public RegistrationPage enterLastName(String lastName) {
         log.info("Entering last name: {}", lastName);
         enterText(LAST_NAME_ET, lastName);
         return this;
     }
 
-    @Step("Enter email: {email}")
     public RegistrationPage enterEmail(String email) {
         log.info("Entering email: {}", email);
         enterText(EMAIL_ET, email);
         return this;
     }
 
-    @Step("Enter mobile number: {mobile}")
     public RegistrationPage enterMobileNumber(String mobile) {
         log.info("Entering mobile number: {}", mobile);
         enterText(MOBILE_ET, mobile);
         return this;
     }
 
-    @Step("Fill registration form")
     public RegistrationPage fillForm(String firstName, String lastName, String email, String mobile) {
         enterFirstName(firstName);
         enterLastName(lastName);
@@ -56,20 +50,17 @@ public class RegistrationPage extends BasePage {
         return this;
     }
 
-    @Step("Scroll to Continue button")
     public RegistrationPage scrollToContinueButton() {
         scrollToText("Continue");
         return this;
     }
 
-    @Step("Tap Continue")
     public void tapContinue() {
         log.info("Scrolling to and tapping Continue button");
         scrollToText("Continue");
         tap(CONTINUE_BTN);
     }
 
-    @Step("Tap back")
     public void tapBack() {
         tap(BACK_BTN);
     }

@@ -4,7 +4,6 @@ import com.fluent.base.BasePage;
 import com.fluent.pom.registration.RegistrationPage;
 import com.fluent.pom.signin.SignInPage;
 import io.appium.java_client.AppiumBy;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class OnboardingPage extends BasePage {
@@ -18,7 +17,6 @@ public class OnboardingPage extends BasePage {
 
     // ─────────────────────────── Actions ───────────────────────────────────
 
-    @Step("Tap Skip on onboarding video")
     public RegistrationPage tapSkip() {
         log.info("Tapping Skip on onboarding video screen");
         if (isVisible(SKIP_BTN)) {
@@ -29,14 +27,12 @@ public class OnboardingPage extends BasePage {
         return new RegistrationPage();
     }
 
-    @Step("Tap Get Started on onboarding welcome screen")
     public RegistrationPage tapGetStarted() {
         log.info("Tapping Get Started on onboarding welcome screen");
         tap(GET_STARTED_BTN);
         return new RegistrationPage();
     }
 
-    @Step("Tap Sign In on onboarding welcome screen")
     public SignInPage tapSignIn() {
         log.info("Tapping Sign In on onboarding welcome screen");
         tap(SIGN_IN_BTN);

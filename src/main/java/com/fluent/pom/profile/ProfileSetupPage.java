@@ -2,7 +2,6 @@ package com.fluent.pom.profile;
 
 import com.fluent.base.BasePage;
 import io.appium.java_client.AppiumBy;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class ProfileSetupPage extends BasePage {
@@ -16,28 +15,24 @@ public class ProfileSetupPage extends BasePage {
 
     // ─────────────────────────── Actions ───────────────────────────────────
 
-    @Step("Tap date-of-birth calendar icon")
     public ProfileSetupPage tapDobCalendarIcon() {
         log.info("Tapping DOB calendar icon");
         tap(DOB_CALENDAR_IV);
         return this;
     }
 
-    @Step("Confirm date picker selection (OK)")
     public ProfileSetupPage tapDatePickerOk() {
         log.info("Tapping OK on date picker dialog");
         tap(DATE_PICKER_OK_BTN);
         return this;
     }
 
-    @Step("Tap DOB section down arrow")
     public ProfileSetupPage tapDownArrow() {
         log.info("Tapping DOB section down arrow");
         tap(DOWN_ARROW_IV);
         return this;
     }
 
-    @Step("Select gender: {gender}")
     public ProfileSetupPage selectGender(String gender) {
         log.info("Selecting gender: {}", gender);
         tap(AppiumBy.id("com.fluenthealth.app:id/sexAssignedAtBirthET"));
@@ -48,7 +43,6 @@ public class ProfileSetupPage extends BasePage {
         return this;
     }
 
-    @Step("Tap Finish Setup")
     public void tapFinishSetup() {
         log.info("Tapping Finish Setup button");
         tap(AppiumBy.androidUIAutomator("new UiSelector().className(\"android.widget.ImageView\").instance(4)"));
