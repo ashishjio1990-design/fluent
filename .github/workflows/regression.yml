@@ -36,6 +36,7 @@ jobs:
 
       - name: Run regression tests on emulator
         uses: reactivecircus/android-emulator-runner@v2
+        timeout-minutes: 45
         with:
           api-level: 34
           arch: x86_64
@@ -44,10 +45,14 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
           script: |
-            mkdir -p target
+            mkdir -p target/allure-results
             appium --log target/appium.log &
+            APPIUM_PID=$!
             sleep 5
             mvn test -Dgroups=regression -P ci -Dno.reset=false -Dfull.reset=true
+            TEST_EXIT=$?
+            kill $APPIUM_PID 2>/dev/null || true
+            exit $TEST_EXIT
 
       - name: Write Allure environment properties
         if: always()
