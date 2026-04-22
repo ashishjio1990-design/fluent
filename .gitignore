@@ -21,6 +21,5 @@ screenshots/
 .DS_Store
 Thumbs.db
 
-# APK/IPA — too large for GitHub, store externally
-apps/android/*.apk
+# IPA — too large for GitHub
 apps/ios/*.ipa
