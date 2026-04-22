@@ -2,8 +2,8 @@ name: Regression Tests
 
 on:
   push:
-    tags:
-      - 'regression*'
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
