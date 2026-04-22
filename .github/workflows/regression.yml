@@ -11,9 +11,6 @@ jobs:
     name: Run @regression tests
     runs-on: ubuntu-latest
 
-    env:
-      ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 5
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -50,7 +47,7 @@ jobs:
           arch: x86_64
           profile: pixel_6
           force-avd-creation: false
-          emulator-options: -no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -read-only
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
           script: |
             mkdir -p target
@@ -61,26 +58,9 @@ jobs:
             TEST_EXIT=$?
 
             # ── Cleanup: kill Appium ──────────────────────────────────────────
-            kill -9 $APPIUM_PID 2>/dev/null || true
-            wait $APPIUM_PID 2>/dev/null || true
+            kill $APPIUM_PID 2>/dev/null || true
 
             exit $TEST_EXIT
-
-      - name: Upload Appium logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: appium-logs
-          path: target/appium.log
-          if-no-files-found: warn
-
-      - name: Upload Surefire reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: surefire-reports
-          path: target/surefire-reports/
-          if-no-files-found: warn
 
       # Restore the correct job outcome — fail the job when tests failed.
       - name: Fail job if tests failed
