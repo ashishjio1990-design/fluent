@@ -197,8 +197,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
                 <configuration>
-                    <!-- AspectJ agent — enables Allure @Step in page objects -->
-                    <argLine>-javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar</argLine>
                     <!-- Pass platform property to test JVM -->
                     <systemPropertyVariables>
                         <platform>${platform}</platform>
