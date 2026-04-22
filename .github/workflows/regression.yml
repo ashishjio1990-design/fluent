@@ -56,7 +56,19 @@ jobs:
             sleep 5
             mvn test -Dgroups=regression -P ci -Dno.reset=false -Dfull.reset=true
             TEST_EXIT=$?
+
+            # ── Cleanup: kill Appium ──────────────────────────────────────────
             kill $APPIUM_PID 2>/dev/null || true
+
+            # ── Cleanup: pre-emptively kill the emulator so the action's own
+            #    post-step does not hang waiting for the process to exit.
+            #    1. Graceful ADB signal
+            adb -e emu kill 2>/dev/null || true
+            sleep 3
+            #    2. Force-kill any residual qemu / emulator process
+            pkill -KILL -f "qemu-system" 2>/dev/null || true
+            pkill -KILL -f "emulator"    2>/dev/null || true
+
             exit $TEST_EXIT
 
       - name: Upload Appium logs
