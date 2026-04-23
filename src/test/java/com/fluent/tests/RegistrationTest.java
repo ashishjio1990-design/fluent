@@ -12,7 +12,7 @@ class RegistrationTest extends BaseTest {
     @Test
     @DisplayName("TC-001: Successful registration with mandatory field validation")
     void tc001_successfulRegistrationWithValidDetails() {
-        // Step 1 — Verify Welcome screen is shown
+        // Step 1 — Verify Welcome screen is shown 
         resetApp();
         pages.welcome.allowPermissionDialogIfPresent();
         Assertions.assertTrue(pages.welcome.isDisplayed(),
