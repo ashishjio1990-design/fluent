@@ -72,10 +72,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK 26
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '26'
           distribution: 'temurin'
           cache: maven
 
@@ -112,19 +112,22 @@ jobs:
       - name: Run [${{ matrix.tag }}] tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
-          target: google_apis
+          api-level: 34
           arch: x86_64
-          profile: pixel_4
+          profile: pixel_6
           avd-name: test_avd
-          emulator-options: >-
-            -no-snapshot-save -no-window -gpu swiftshader_indirect
-            -noaudio -no-boot-anim -camera-back none
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
-          script: mvn test -Dgroups="${{ matrix.tag }}" -DforkCount=0 -pl .
+          script: |
+            mvn test -Dgroups="${{ matrix.tag }}" -DforkCount=0 -pl .
+            TEST_EXIT=$?
+            adb -e emu kill 2>/dev/null || true
+            sleep 2
+            killall -9 qemu-system-x86_64 2>/dev/null || true
+            exit $TEST_EXIT
         env:
-          APPIUM_DEVICE_NAME: emulator-5554
-          APPIUM_PLATFORM_VERSION: "11"
+          APPIUM_PLATFORM_VERSION: "14"
           APPIUM_SERVER_URL: http://127.0.0.1:4723
         continue-on-error: true
 
