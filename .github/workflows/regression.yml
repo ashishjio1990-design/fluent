@@ -10,9 +10,6 @@ jobs:
   regression:
     name: Run @regression tests
     runs-on: ubuntu-latest
-    env:
-      # Reduces the time the runner waits for the emulator to shut down gracefully before forcing a kill
-      ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 5
 
     steps:
       - name: Checkout code
@@ -60,8 +57,14 @@ jobs:
             mvn test -Dgroups=regression -P ci -Dno.reset=false -Dfull.reset=true
             TEST_EXIT=$?
 
-            # ── Cleanup: kill Appium ──────────────────────────────────────────
+            # ── Cleanup ──────────────────────────────────────────────────────
             kill -9 $APPIUM_PID 2>/dev/null || true
+
+            # Kill qemu by binary name (not -f, which would match this script's own text)
+            # so the action's post-step finds the process already dead and continues instantly.
+            adb -e emu kill 2>/dev/null || true
+            sleep 2
+            killall -9 qemu-system-x86_64 2>/dev/null || true
 
             exit $TEST_EXIT
 
